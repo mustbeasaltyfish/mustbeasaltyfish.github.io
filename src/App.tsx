@@ -14,7 +14,6 @@ export default function App() {
   // Second section states
   const [section2Visible, setSection2Visible] = useState(false);
   const [section2Text, setSection2Text] = useState('');
-  const [section2TypingComplete, setSection2TypingComplete] = useState(false);
   const [currentIconIndex, setCurrentIconIndex] = useState(0);
   const section2Ref = useRef<HTMLDivElement>(null);
 
@@ -46,7 +45,7 @@ export default function App() {
   useEffect(() => {
     if (!avatarSlideComplete) return;
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     if (currentPhase === 'typing1') {
       if (displayText.length < text1.length) {
@@ -118,8 +117,6 @@ export default function App() {
         setSection2Text(section2FullText.slice(0, section2Text.length + 1));
       }, 40); // Faster typing speed
       return () => clearTimeout(timeoutId);
-    } else {
-      setSection2TypingComplete(true);
     }
   }, [section2Visible, section2Text]);
 
