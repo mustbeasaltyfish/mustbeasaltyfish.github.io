@@ -187,7 +187,7 @@ export default function App() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.7, 0, 0.2, 1], delay: 1.5 }}
-          className="fixed top-8 left-1/2 -translate-x-1/2 z-50 -ml-56"
+          className="fixed top-8 left-1/2 -translate-x-1/2 z-50 -ml-60"
         >
           <div className="bg-white rounded-full shadow-lg px-2 py-2 relative">
             <div className="flex items-center gap-2 relative">
