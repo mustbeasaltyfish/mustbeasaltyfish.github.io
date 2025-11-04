@@ -6,6 +6,7 @@ import emblemImage from './assets/images/emblem.svg';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
 import { getBotResponse } from './services/botService';
+import { checkRateLimit, formatResetTime } from './utils/rateLimiter';
 
 export default function App() {
   const [avatarSlideComplete, setAvatarSlideComplete] = useState(false);
@@ -198,6 +199,14 @@ export default function App() {
   // Handle bot submission
   const handleBotSubmit = async () => {
     if (!inputValue.trim() || isLoading) return;
+
+    // 检查限流
+    const rateLimit = checkRateLimit();
+    if (!rateLimit.allowed) {
+      setErrorMessage(`您的提问次数已达上限，请${formatResetTime(rateLimit.resetTime)}再试`);
+      setShowResponse(true);
+      return;
+    }
 
     // 清空之前的回答和错误
     setBotResponse('');

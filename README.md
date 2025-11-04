@@ -96,7 +96,17 @@ npm run preview
 
 项目集成了人格 Bot 功能，使用硅基流动 API。
 
-### 本地开发
+### 重要说明
+
+由于 GitHub Pages 是静态网站托管服务，无法在运行时访问服务器端的环境变量或 Secrets。API Key 必须在**构建时**打包到代码中。这意味着：
+
+✅ **部署到 GitHub Pages 后，所有访问者都可以使用 Bot 功能**（这是您期望的行为）  
+⚠️ **API Key 会被嵌入到前端代码中**（虽然不直接可见，但技术人员可以提取）  
+💡 **建议使用限流和配额控制**来防止滥用
+
+### 配置步骤
+
+#### 1. 本地开发配置
 
 1. 复制 `.env.example` 为 `.env`：
    ```bash
@@ -108,14 +118,55 @@ npm run preview
    VITE_SILICONFLOW_API_KEY=your_api_key_here
    ```
 
-### GitHub Pages 部署
+3. 保持 `src/config/deploy.ts` 中的 `IS_GITHUB_PAGES = 0`：
+   ```typescript
+   export const IS_GITHUB_PAGES = 0;  // 本地开发
+   ```
 
-1. 在 GitHub 仓库的 Settings > Secrets and variables > Actions 中
-2. 添加一个新的 Secret，名称为 `SILICONFLOW_API_KEY`
-3. 值为你的硅基流动 API Key
-4. 重新触发部署后，Bot 功能即可正常使用
+#### 2. GitHub Pages 部署配置
 
-**注意**：API Key 会嵌入到构建后的代码中，所有访问者都可以使用这个 Bot 功能。
+1. **配置 GitHub Secret**：
+   - 进入仓库的 Settings > Secrets and variables > Actions
+   - 点击 "New repository secret"
+   - Name: `SILICONFLOW_API_KEY`
+   - Value: 你的硅基流动 API Key
+   - 点击 "Add secret"
+
+2. **修改部署标志**：
+   - 打开 `src/config/deploy.ts`
+   - 将 `IS_GITHUB_PAGES` 改为 `1`：
+     ```typescript
+     export const IS_GITHUB_PAGES = 1;  // 准备部署到 GitHub Pages
+     ```
+
+3. **提交并推送**：
+   ```bash
+   git add .
+   git commit -m "Deploy to GitHub Pages"
+   git push origin main
+   ```
+
+4. **等待自动部署完成**（约 2-3 分钟）
+
+#### 3. 工作原理
+
+```mermaid
+本地开发:
+  .env 文件 → VITE_SILICONFLOW_API_KEY → 构建 → 本地预览
+
+GitHub Pages 部署:
+  GitHub Secret → GitHub Actions → VITE_SILICONFLOW_API_KEY → 构建 → 静态文件 → GitHub Pages
+                                                                   ↓
+                                                            (API Key 已打包在代码中)
+                                                                   ↓
+                                                            访问者可以使用 Bot 功能
+```
+
+**关键点**：
+- `IS_GITHUB_PAGES` 标志用于区分环境，提供不同的错误提示
+- 无论本地还是 GitHub Pages，API Key 都是在**构建时**通过 `import.meta.env.VITE_SILICONFLOW_API_KEY` 注入
+- 本地：从 `.env` 文件读取
+- GitHub Pages：从 GitHub Actions 环境变量读取（来自 Secret）
 
 ## 开发注意事项
 
