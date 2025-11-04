@@ -11,7 +11,10 @@ export default defineConfig({
     },
   },
   // GitHub Pages 使用仓库名作为 base 路径
-  base: process.env.GITHUB_PAGES ? '/Personal_web/' : '/',
+  // 如果设置了 REPO_NAME 环境变量，使用它；否则使用默认值
+  base: process.env.GITHUB_PAGES 
+    ? (process.env.REPO_NAME ? `/${process.env.REPO_NAME}/` : '/Personal_web/')
+    : '/',
   build: {
     outDir: 'dist',
     sourcemap: false,
