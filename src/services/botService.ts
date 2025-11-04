@@ -1,4 +1,4 @@
-import { SILICONFLOW_API_BASE_URL, SILICONFLOW_API_KEY, isApiKeyConfigured } from '../config/api';
+import { SILICONFLOW_API_BASE_URL, SILICONFLOW_API_KEY, isApiKeyConfigured, isGitHubPagesEnvironment } from '../config/api';
 import { buildSystemPrompt, truncateResponse } from '../utils/promptBuilder';
 
 export interface BotResponse {
@@ -14,8 +14,7 @@ export interface BotResponse {
 export const getBotResponse = async (userMessage: string): Promise<BotResponse> => {
   // 检查API key是否配置
   if (!isApiKeyConfigured()) {
-    // 检查是否在 GitHub Pages 环境中
-    const isGitHubPages = window.location.hostname.includes('github.io');
+    const isGitHubPages = isGitHubPagesEnvironment();
     return {
       content: '',
       error: isGitHubPages 
