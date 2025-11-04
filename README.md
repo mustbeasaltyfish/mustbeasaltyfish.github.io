@@ -92,6 +92,31 @@ npm run preview
 
 原始 Figma 资源 ID: `e61f386b2c2ac454de982581bf3b2dad6dceffa4`
 
+## Bot 功能配置
+
+项目集成了人格 Bot 功能，使用硅基流动 API。
+
+### 本地开发
+
+1. 复制 `.env.example` 为 `.env`：
+   ```bash
+   cp .env.example .env
+   ```
+
+2. 在 `.env` 文件中填入你的硅基流动 API Key：
+   ```
+   VITE_SILICONFLOW_API_KEY=your_api_key_here
+   ```
+
+### GitHub Pages 部署
+
+1. 在 GitHub 仓库的 Settings > Secrets and variables > Actions 中
+2. 添加一个新的 Secret，名称为 `SILICONFLOW_API_KEY`
+3. 值为你的硅基流动 API Key
+4. 重新触发部署后，Bot 功能即可正常使用
+
+**注意**：API Key 会嵌入到构建后的代码中，所有访问者都可以使用这个 Bot 功能。
+
 ## 开发注意事项
 
 - 使用 TypeScript 确保类型安全

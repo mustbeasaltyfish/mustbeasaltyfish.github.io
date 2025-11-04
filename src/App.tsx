@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Smile, ChevronDown, User, Code, Brain, Bot, Heart, Sparkles, Github, Mail, MessageCircle } from 'lucide-react';
 import avatarImage from './assets/images/avatar.jpg';
+import emblemImage from './assets/images/emblem.svg';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
+import { getBotResponse } from './services/botService';
 
 export default function App() {
   const [avatarSlideComplete, setAvatarSlideComplete] = useState(false);
@@ -31,10 +33,23 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<'主页' | '思考' | '友人' | '关于我'>('主页');
   const pages = ['主页', '思考', '友人', '关于我'] as const;
 
+  // Bot states
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [botResponse, setBotResponse] = useState('');
+  const [showResponse, setShowResponse] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const text1 = 'Welcome Friend !';
   const text2 = "I'm Starry !";
-  const section2FullText = "Who am I ?\nA boy 😃 , A tech guy 😎 , A nerd love Computer Science and MLLM 🤖. Outgoing, passionate，always trying new things , wanting to meet friends with alike will.";
-  const icons = [User, Code, Brain, Bot, Heart, Sparkles];
+  const section2FullText = "Who am I ?\nA boy 😃 , A tech guy 😎 , A nerd love Computer Science and MLLM 🤖. A sci-fi lover dreaming of space and starship. Outgoing, passionate，always trying new things , wanting to meet friends with alike will.";
+  
+  // Create Emblem icon component
+  const EmblemIcon = ({ className }: { className?: string }) => (
+    <img src={emblemImage} alt="Emblem" className={className} />
+  );
+  
+  const icons = [User, Code, Brain, Bot, Heart, Sparkles, EmblemIcon];
 
   const contactItems = [
     { icon: Github, label: 'mustbeasaltyfish', bgColor: 'bg-gray-900' },
@@ -178,6 +193,52 @@ export default function App() {
   }, [divider1Visible, divider2Visible]);
 
   const CurrentIcon = icons[currentIconIndex];
+  const isEmblemIcon = CurrentIcon === EmblemIcon;
+
+  // Handle bot submission
+  const handleBotSubmit = async () => {
+    if (!inputValue.trim() || isLoading) return;
+
+    // 清空之前的回答和错误
+    setBotResponse('');
+    setErrorMessage('');
+    
+    // 先隐藏之前的回答（如果有）
+    if (showResponse) {
+      setShowResponse(false);
+      // 等待动画完成后再显示新的
+      await new Promise(resolve => setTimeout(resolve, 300));
+    }
+    
+    // 开始加载
+    setIsLoading(true);
+    setShowResponse(true);
+
+    try {
+      const result = await getBotResponse(inputValue);
+      
+      if (result.error) {
+        setErrorMessage(result.error);
+        setBotResponse('');
+      } else {
+        setBotResponse(result.content);
+        setErrorMessage('');
+      }
+    } catch (error) {
+      setErrorMessage('请求失败，请稍后重试');
+      setBotResponse('');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Enter key
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleBotSubmit();
+    }
+  };
 
   return (
     <div className="bg-background">
@@ -304,18 +365,55 @@ export default function App() {
             transition={{ duration: 0.6, ease: [0.7, 0, 0.2, 1], delay: 0.5 }}
             className="ml-4"
           >
-            <div className="bg-white rounded-full shadow-lg p-1.5 flex items-center gap-1.5">
-              <Input
-                type="text"
-                placeholder="Ask about me any dimension"
-                className="flex-1 border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 px-3 min-w-[320px] h-9"
-              />
-              <Button
-                size="icon"
-                className="rounded-full h-9 w-9 bg-black hover:bg-gray-800 flex-shrink-0"
-              >
-                <Smile className="h-4 w-4" />
-              </Button>
+            <div className="flex flex-col gap-3">
+              <div className="bg-white rounded-full shadow-lg p-1.5 flex items-center gap-1.5">
+                <Input
+                  type="text"
+                  placeholder="Ask about me any dimension"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={isLoading}
+                  className="flex-1 border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 px-3 min-w-[320px] h-9"
+                />
+                <Button
+                  size="icon"
+                  onClick={handleBotSubmit}
+                  disabled={isLoading || !inputValue.trim()}
+                  className="rounded-full h-9 w-9 bg-black hover:bg-gray-800 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Smile className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Bot Response Bubble */}
+              <AnimatePresence mode="wait">
+                {showResponse && (
+                  <motion.div
+                    key="response-bubble"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.6, ease: [0.7, 0, 0.2, 1] }}
+                    className="bg-white rounded-2xl shadow-lg p-4 max-w-md"
+                    style={{ fontFamily: '-apple-system, "SF Pro Display", "SF Pro Text", system-ui, sans-serif' }}
+                  >
+                    {isLoading ? (
+                      <div className="text-gray-800 text-base">
+                        emm让我想想...
+                      </div>
+                    ) : errorMessage ? (
+                      <div className="text-red-600 text-base">
+                        {errorMessage}
+                      </div>
+                    ) : (
+                      <div className="text-gray-800 text-base whitespace-pre-wrap">
+                        {botResponse}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
@@ -397,7 +495,11 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
               transition={{ duration: 0.5, ease: [0.7, 0, 0.2, 1] }}
             >
-              <CurrentIcon className="h-32 w-32 text-gray-700" strokeWidth={1.5} />
+              {isEmblemIcon ? (
+                <CurrentIcon className="h-32 w-32" />
+              ) : (
+                <CurrentIcon className="h-32 w-32 text-gray-700" strokeWidth={1.5} />
+              )}
             </motion.div>
           </motion.div>
         </div>

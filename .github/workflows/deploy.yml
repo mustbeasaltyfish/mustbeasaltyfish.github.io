@@ -36,6 +36,7 @@ jobs:
         env:
           GITHUB_PAGES: true
           REPO_NAME: ${{ github.event.repository.name }}
+          VITE_SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
