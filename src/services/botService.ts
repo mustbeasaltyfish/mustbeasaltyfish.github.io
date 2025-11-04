@@ -14,9 +14,13 @@ export interface BotResponse {
 export const getBotResponse = async (userMessage: string): Promise<BotResponse> => {
   // 检查API key是否配置
   if (!isApiKeyConfigured()) {
+    // 检查是否在 GitHub Pages 环境中
+    const isGitHubPages = window.location.hostname.includes('github.io');
     return {
       content: '',
-      error: 'API key未配置，请在.env文件中设置VITE_SILICONFLOW_API_KEY'
+      error: isGitHubPages 
+        ? 'API key未配置。请在 GitHub 仓库的 Settings > Secrets and variables > Actions 中添加名为 SILICONFLOW_API_KEY 的 Secret，然后重新部署。'
+        : 'API key未配置，请在.env文件中设置VITE_SILICONFLOW_API_KEY'
     };
   }
 
