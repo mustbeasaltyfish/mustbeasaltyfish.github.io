@@ -46,6 +46,22 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<'主页' | '思考' | '友人' | '关于我'>('主页');
   const pages = ['主页', '思考', '友人', '关于我'] as const;
 
+  // 离开主页时重置动画状态，确保再次返回时能从头播放
+  useEffect(() => {
+    if (currentPage === '主页') return;
+
+    setAvatarSlideComplete(false);
+    setDisplayText('');
+    setCurrentPhase('typing1');
+    setShowCursor(true);
+    setSection2Visible(false);
+    setSection2Text('');
+    setCurrentIconIndex(0);
+    setSection3Visible(false);
+    setDivider1Visible(false);
+    setDivider2Visible(false);
+  }, [currentPage]);
+
   // Bot states
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -264,7 +280,7 @@ export default function App() {
   return (
     <div className="bg-background">
       {/* Navigation Bar */}
-      {currentPhase === 'complete' && (
+      {(currentPage !== '主页' || currentPhase === 'complete') && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
