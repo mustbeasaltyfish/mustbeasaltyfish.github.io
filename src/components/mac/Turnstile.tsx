@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 
 export const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
 interface TurnstileApi {
-  ready: (callback: () => void) => void;
   render: (element: HTMLElement, options: {
     sitekey: string; action: string; size: 'compact'; theme: 'light';
     callback: (token: string) => void;
@@ -13,12 +12,15 @@ interface TurnstileApi {
 declare global { interface Window { turnstile?: TurnstileApi } }
 let scriptReady: Promise<void> | undefined;
 function load() {
-  if (window.turnstile) return Promise.resolve();
+  if (window.turnstile?.render) return Promise.resolve();
   if (!scriptReady) scriptReady = new Promise<void>((resolve, reject) => {
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     script.async = true;
-    script.onload = () => resolve();
+    script.onload = () => {
+      if (window.turnstile?.render) resolve();
+      else { script.remove(); scriptReady = undefined; reject(new Error("verification script unavailable")); }
+    };
     script.onerror = () => { script.remove(); scriptReady = undefined; reject(new Error('verification unavailable')); };
     document.head.append(script);
   });
@@ -34,14 +36,12 @@ export function Turnstile({ onToken, attempt }: { onToken: (token: string) => vo
     onToken('');
     setFailed(false);
     load().then(() => {
-      window.turnstile?.ready(() => {
-        if (!active || !container.current) return;
-        id = window.turnstile!.render(container.current, {
-          sitekey: turnstileSiteKey, action: 'starry-chat', size: 'compact', theme: 'light',
-          callback: token => { if (active) { setFailed(false); onToken(token); } },
-          'expired-callback': () => { if (active) onToken(''); },
-          'error-callback': () => { if (active) { setFailed(true); onToken(''); } },
-        });
+      if (!active || !container.current) return;
+      id = window.turnstile!.render(container.current, {
+        sitekey: turnstileSiteKey, action: 'starry-chat', size: 'compact', theme: 'light',
+        callback: token => { if (active) { setFailed(false); onToken(token); } },
+        'expired-callback': () => { if (active) onToken(''); },
+        'error-callback': () => { if (active) { setFailed(true); onToken(''); } },
       });
     }).catch(() => { if (active) setFailed(true); });
     return () => { active = false; if (id) window.turnstile?.remove(id); };

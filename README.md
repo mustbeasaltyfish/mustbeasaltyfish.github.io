@@ -131,6 +131,8 @@ Vite 的开发和预览服务器将 `/api` 转发到 `127.0.0.1:8787`。`.dev.va
 
 ### Cloudflare 部署
 
+当前 Worker 地址：`https://starry-bot-api.2965426422.workers.dev/api/chat`。GitHub Actions 的两个公开变量已配置；供应商密钥和 Turnstile Secret 仅保存在 Worker。
+
 1. 在 Cloudflare Turnstile 创建 Managed widget，允许 `mustbeasaltyfish.github.io`。记录公开的 Site key；Secret key 仅交给 Worker。
 2. 在 `backend` 目录登录并部署 Worker：
 
