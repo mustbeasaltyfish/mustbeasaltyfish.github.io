@@ -2,6 +2,20 @@
 
 一个基于 React + TypeScript + Tailwind CSS 构建的个人网站项目。
 
+## Macintosh 主页
+
+主页以初代 Macintosh 为灵感：带贴纸白边与材质阴影的米色机身，屏幕内运行可交互的黑白桌面。机身使用 CSS 绘制，像素图标和光标使用 SVG，不依赖 WebGL 或外部图片服务。
+
+- 点击桌面图标打开欢迎、个人介绍、思考、友人或联系方式；点击窗口左上角关闭。
+- 拖动窗口标题栏可移动窗口，范围限制在屏幕内；触屏端保留点击和滚动。
+- 点击窗口右上角、`View > Expand screen` 或机身下方的 `A closer look` 放大屏幕；按 Escape 返回。
+- `Special > Restart` 重放开机过程；机身右下角的指示灯可休眠，点击屏幕唤醒。
+- `Ask Starry` 继续使用现有 Bot 服务和客户端限流，需要沿用下文的 API 配置。
+- `Contact` 提供 GitHub 链接、邮件链接和微信号复制。
+- 思考、友人仍是待建设页面；字体均随项目本地加载，授权见 `Attributions.md`。
+
+实现按职责分开：`src/components/mac/Macintosh.tsx` 管理机身、开机和屏幕放大；`Desktop.tsx` 管理菜单与窗口；`WindowContent.tsx` 放置页面内容和 Bot 表单；`PixelIcon.tsx` 提供像素图标；`src/styles/macintosh.css` 管理整体视觉与响应式布局。
+
 ## 技术栈
 
 - **React 18** - UI 框架
@@ -80,17 +94,11 @@ npm run preview
 ### 访问网站
 
 部署成功后，网站将可通过以下地址访问：
-- https://wuyukai.github.io/Personal_web/
+- https://mustbeasaltyfish.github.io/
 
 ## 图片资源
 
-当前项目使用占位符图片。要使用实际的 Figma 设计资源：
-
-1. 从 Figma 导出头像图片
-2. 将图片保存到 `src/assets/images/` 目录
-3. 更新 `src/App.tsx` 中的导入路径
-
-原始 Figma 资源 ID: `e61f386b2c2ac454de982581bf3b2dad6dceffa4`
+头像位于 `src/assets/images/avatar.jpg`，由 `src/components/mac/WindowContent.tsx` 引用。机身、键盘、鼠标及软盘贴纸由 CSS 绘制；桌面图标为项目内 SVG；像素光标位于 `src/assets/images/mac-arrow.svg` 和 `mac-text.svg`。
 
 ## Bot 功能配置
 
@@ -178,4 +186,3 @@ GitHub Pages 部署:
 ## 许可证
 
 MIT License
-
