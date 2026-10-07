@@ -2,6 +2,7 @@ import { useRef, useState, type FormEvent } from "react";
 import avatar from "../../assets/images/avatar.jpg";
 import { getBotResponse } from "../../services/botService";
 import { checkRateLimit, formatResetTime } from "../../utils/rateLimiter";
+import { Personality } from "./Personality";
 import { PixelIcon, type IconName } from "./PixelIcon";
 
 export type Page =
@@ -161,9 +162,13 @@ function Contact() {
 export function WindowContent({
   page,
   open,
+  expanded,
+  enter,
 }: {
   page: Page;
   open: (page: Page) => void;
+  expanded: boolean;
+  enter: () => void;
 }) {
   if (page === "bot") return <AskStarry />;
   if (page === "contact") return <Contact />;
@@ -177,7 +182,7 @@ export function WindowContent({
           <div>
             <span className="tiny-label">A HUMAN, NOT A COMPUTER.</span>
             <h2>I'm Starry!</h2>
-            <p>Welcome, friend.</p>
+            <p>{expanded ? "Welcome, friend." : "Open full screen."}</p>
           </div>
           <PixelIcon name="star" className="welcome-star" />
         </div>
@@ -190,8 +195,13 @@ export function WindowContent({
           Pull up a window. Make yourself at home.
         </p>
         <div className="welcome-actions">
-          <button className="mac-button primary" onClick={() => open("bot")}>
-            Ask about me <span>↵</span>
+          <button
+            className={`mac-button primary ${expanded ? "" : "desktop-entry"}`}
+            onClick={expanded ? () => open("bot") : enter}
+            aria-label={expanded ? "Ask about me" : "Enter full-screen desktop"}
+          >
+            {expanded ? "Ask about me" : "Enter desktop"}{" "}
+            <span>{expanded ? "↵" : "⤢"}</span>
           </button>
           <button className="mac-button" onClick={() => open("about")}>
             Who am I?
@@ -215,22 +225,27 @@ export function WindowContent({
             <p>Starry / Yukai Wu</p>
           </div>
         </div>
-        <p>
-          A boy, a tech guy, and a nerd who loves Computer Science and MLLM. A
-          sci-fi lover dreaming of space and starships.
-        </p>
-        <p>
-          Outgoing, passionate, always trying new things. I'd love to meet
-          friends with a similar curiosity.
-        </p>
-        <div className="interest-list">
-          <span>01 / Computer science</span>
-          <span>02 / Machine intelligence</span>
-          <span>03 / Somewhere among the stars</span>
+        <div className="about-profile">
+          <div className="about-copy">
+            <p>
+              A boy, a tech guy, and a nerd who loves Computer Science and MLLM.
+              A sci-fi lover dreaming of space and starships.
+            </p>
+            <p>
+              Outgoing, passionate, always trying new things. I'd love to meet
+              friends with a similar curiosity.
+            </p>
+            <div className="interest-list">
+              <span>01 / Computer science</span>
+              <span>02 / Machine intelligence</span>
+              <span>03 / Somewhere among the stars</span>
+            </div>
+            <button className="mac-button" onClick={() => open("contact")}>
+              Let's be friends ↗
+            </button>
+          </div>
+          <Personality />
         </div>
-        <button className="mac-button" onClick={() => open("contact")}>
-          Let's be friends ↗
-        </button>
       </div>
     );
   if (page === "thoughts" || page === "friends")

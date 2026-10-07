@@ -446,12 +446,128 @@
   margin: 0;
   font-size: 13px;
 }
-.about-content > p,
+.about-copy > p,
 .bot-content > p,
 .system-content > p {
   font-size: 16px;
   line-height: 1.5;
   margin: 0 0 12px;
+}
+.about-profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.personality {
+  margin: 0;
+  border: 2px solid #171914;
+  background: #f6f7ee;
+  box-shadow: 2px 2px #171914;
+}
+.personality-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-bottom: 1px solid #171914;
+  font-size: 11px;
+}
+.personality-stage {
+  display: grid;
+  place-items: center;
+  height: 160px;
+  background-image: repeating-conic-gradient(
+    #8d9281 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 2px 2px;
+}
+.personality-frame {
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+  border: 2px solid #171914;
+  background: #f6f7ee;
+  box-shadow: 4px 4px #171914;
+}
+.personality-frame .pixel-icon {
+  width: 88px;
+  height: 88px;
+  animation: icon-arrive 0.24s steps(3, end) both;
+}
+.personality-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 8px;
+  border-top: 1px solid #171914;
+}
+.personality-caption > span {
+  font-size: 13px;
+}
+.personality-controls {
+  display: flex;
+  gap: 5px;
+}
+.personality-controls button {
+  width: 24px;
+  height: 23px;
+  padding: 0;
+  border: 1px solid #171914;
+  background: #f6f7ee;
+  color: #171914;
+  font-size: 12px;
+  line-height: 1;
+}
+.personality-controls button:hover {
+  background: #171914;
+  color: #f6f7ee;
+}
+.is-expanded .about-profile {
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 36px;
+  align-items: start;
+}
+.is-expanded .about-copy {
+  max-width: 700px;
+}
+.is-expanded .personality-stage {
+  height: 240px;
+}
+.is-expanded .personality-frame {
+  width: 176px;
+  height: 176px;
+}
+.is-expanded .personality-frame .pixel-icon {
+  width: 128px;
+  height: 128px;
+}
+.is-expanded .personality-title {
+  font-size: 13px;
+  padding: 8px;
+}
+.is-expanded .personality-caption > span {
+  font-size: 16px;
+}
+.desktop-entry {
+  animation: entry-invite 1.6s steps(2, end) 3;
+}
+@keyframes icon-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes entry-invite {
+  50% {
+    background: #171914;
+    color: #f6f7ee;
+  }
 }
 .interest-list {
   display: grid;
@@ -702,10 +818,10 @@
   bottom: 115px;
 }
 .is-expanded .mac-window {
-  width: min(650px, calc(100% - 146px));
-  height: min(520px, calc(100% - 116px));
-  left: max(22px, calc((100% - 740px) / 2));
-  top: max(55px, calc((100% - 520px) / 2));
+  width: calc(100% - 158px);
+  height: calc(100% - 104px);
+  left: 28px;
+  top: 52px;
 }
 .is-expanded .window-title {
   height: 30px;
@@ -764,7 +880,7 @@
 .is-expanded .content-heading h2 {
   font-size: 34px;
 }
-.is-expanded .about-content > p,
+.is-expanded .about-copy > p,
 .is-expanded .bot-content > p {
   font-size: 20px;
 }
@@ -875,6 +991,24 @@
   }
 }
 @media (max-width: 850px) {
+  .is-expanded .about-profile {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .is-expanded .personality {
+    order: -1;
+  }
+  .is-expanded .personality-stage {
+    height: 140px;
+  }
+  .is-expanded .personality-frame {
+    width: 104px;
+    height: 104px;
+  }
+  .is-expanded .personality-frame .pixel-icon {
+    width: 72px;
+    height: 72px;
+  }
   .mac-window {
     left: 8px;
     width: calc(100% - 73px);
@@ -1012,7 +1146,7 @@
     width: 26px;
     height: 26px;
   }
-  .about-content > p,
+  .about-copy > p,
   .bot-content > p {
     font-size: 14px;
   }
@@ -1129,7 +1263,7 @@
   .is-expanded .content-heading p {
     font-size: 13px;
   }
-  .is-expanded .about-content > p,
+  .is-expanded .about-copy > p,
   .is-expanded .bot-content > p {
     font-size: 18px;
   }
@@ -1171,6 +1305,20 @@
   height: 18px;
 }
 @container (max-width: 450px) {
+  .macintosh:not(.is-expanded) .personality {
+    order: -1;
+  }
+  .macintosh:not(.is-expanded) .personality-stage {
+    height: 100px;
+  }
+  .macintosh:not(.is-expanded) .personality-frame {
+    width: 76px;
+    height: 76px;
+  }
+  .macintosh:not(.is-expanded) .personality-frame .pixel-icon {
+    width: 48px;
+    height: 48px;
+  }
   .macintosh:not(.is-expanded) .mac-desktop {
     font-size: 13px;
   }

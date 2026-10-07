@@ -244,7 +244,12 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
             </span>
           </div>
           <div className="window-body" key={page} tabIndex={0}>
-            <WindowContent page={page} open={open} />
+            <WindowContent
+              page={page}
+              open={open}
+              expanded={expanded}
+              enter={() => onExpand(true)}
+            />
           </div>
           <div className="window-bottom">
             <span>◇</span>
@@ -255,7 +260,9 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
       )}
       <div className="desktop-status">
         <span>{notice || "Starry System 1.0"}</span>
-        <button onClick={() => open("bot")}>Ask Starry ↗</button>
+        <button onClick={expanded ? () => open("bot") : () => onExpand(true)}>
+          {expanded ? "Ask Starry ↗" : "Enter desktop ⤢"}
+        </button>
       </div>
     </div>
   );

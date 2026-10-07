@@ -8,13 +8,14 @@
 
 - 点击桌面图标打开欢迎、个人介绍、思考、友人或联系方式；点击窗口左上角关闭。
 - 拖动窗口标题栏可移动窗口，范围限制在屏幕内；触屏端保留点击和滚动。
-- 点击窗口右上角或 `View > Expand screen` 放大屏幕；按 Escape 返回。
+- 欢迎窗口通过 `Enter desktop` 明确提示进入全屏桌面，状态栏也保留入口；点击窗口右上角或 `View > Expand screen` 也可进入，按 Escape 返回。全屏默认窗口占据桌面的主要区域。
+- `About me` 保留原版七个性格图标的两秒轮播，使用黑白像素图标和阶梯切换；可暂停、手动切换，并遵守系统的减少动态效果设置。
 - `Special > Restart` 重放开机过程；机身右下角的指示灯可休眠，点击屏幕唤醒。
 - `Ask Starry` 继续使用现有 Bot 服务和客户端限流，需要沿用下文的 API 配置。
 - `Contact` 提供 GitHub 链接、邮件链接和微信号复制。
 - 思考、友人仍是待建设页面；字体均随项目本地加载，授权见 `Attributions.md`。
 
-实现按职责分开：`src/components/mac/Macintosh.tsx` 管理机身、开机和屏幕放大；`Desktop.tsx` 管理菜单与窗口；`WindowContent.tsx` 放置页面内容和 Bot 表单；`PixelIcon.tsx` 提供像素图标；`AppleLogo.tsx` 复用 Apple 标志轮廓；`src/styles/macintosh-hardware.css` 管理机身与居中舞台；`src/styles/macintosh.css` 管理屏幕内的桌面与响应式布局。
+实现按职责分开：`src/components/mac/Macintosh.tsx` 管理机身、开机和屏幕放大；`Desktop.tsx` 管理菜单与窗口；`WindowContent.tsx` 放置页面内容和 Bot 表单；`Personality.tsx` 管理性格图标轮播；`PixelIcon.tsx` 提供像素图标；`AppleLogo.tsx` 复用 Apple 标志轮廓；`src/styles/macintosh-hardware.css` 管理机身与居中舞台；`src/styles/macintosh.css` 管理屏幕内的桌面与响应式布局。
 
 ## 技术栈
 
