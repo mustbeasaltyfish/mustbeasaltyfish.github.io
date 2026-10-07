@@ -1,7 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import avatar from "../../assets/images/avatar.jpg";
 import { getBotResponse } from "../../services/botService";
-import { checkRateLimit, formatResetTime } from "../../utils/rateLimiter";
+import { Turnstile, turnstileSiteKey } from "./Turnstile";
 import { Personality } from "./Personality";
 import { PixelIcon, type IconName } from "./PixelIcon";
 
@@ -38,12 +38,13 @@ function AskStarry() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const pending = useRef(false);
+  const [token, setToken] = useState("");
+  const [attempt, setAttempt] = useState(0);
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!input.trim() || pending.current) return;
-    const limit = checkRateLimit();
-    if (!limit.allowed) {
-      setError(`提问次数已达上限，请${formatResetTime(limit.resetTime)}再试。`);
+    if (turnstileSiteKey && !token) {
+      setError("请完成人机验证后再发送。");
       return;
     }
     pending.current = true;
@@ -51,17 +52,17 @@ function AskStarry() {
     setError("");
     setReply("");
     try {
-      const result = await getBotResponse(input);
+      const result = await getBotResponse(input, token);
       if (result.error)
-        setError(
-          "暂时无法连接 Starry，请稍后再试，或在 Contact 中直接联系我。",
-        );
+        setError(result.error);
       else setReply(result.content);
     } catch {
       setError("连接中断了，请稍后再试。");
     } finally {
       pending.current = false;
       setLoading(false);
+      setToken("");
+      setAttempt(v => v + 1);
     }
   }
   return (
@@ -91,11 +92,12 @@ function AskStarry() {
           />
           <button
             className="mac-button primary"
-            disabled={loading || !input.trim()}
+            disabled={loading || !input.trim() || Boolean(turnstileSiteKey && !token)}
           >
             {loading ? "Wait…" : "Send ↵"}
           </button>
         </div>
+        {turnstileSiteKey && <Turnstile onToken={setToken} attempt={attempt} />}
       </form>
       <div
         className={`bot-reply ${error ? "has-error" : ""}`}
@@ -237,7 +239,7 @@ export function WindowContent({
             </p>
             <div className="interest-list">
               <span>01 / Computer science</span>
-              <span>02 / Machine intelligence</span>
+              <span>02 / Recursive Self-Improvement</span>
               <span>03 / Somewhere among the stars</span>
             </div>
             <button className="mac-button" onClick={() => open("contact")}>

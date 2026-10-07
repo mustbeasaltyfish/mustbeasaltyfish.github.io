@@ -11,7 +11,7 @@
 - 欢迎窗口通过 `Enter desktop` 明确提示进入全屏桌面，状态栏也保留入口；点击窗口右上角或 `View > Expand screen` 也可进入，按 Escape 返回。全屏默认窗口占据桌面的主要区域。
 - `About me` 保留原版七个性格图标的两秒轮播，使用黑白像素图标和阶梯切换；可暂停、手动切换，并遵守系统的减少动态效果设置。
 - `Special > Restart` 重放开机过程；机身右下角的指示灯可休眠，点击屏幕唤醒。
-- `Ask Starry` 继续使用现有 Bot 服务和客户端限流，需要沿用下文的 API 配置。
+- `Ask Starry` 通过 Cloudflare Worker 调用硅基流动；密钥仅保存在服务端，限流与配额由服务端执行。
 - `Contact` 提供 GitHub 链接、邮件链接和微信号复制。
 - 思考、友人仍是待建设页面；字体均随项目本地加载，授权见 `Attributions.md`。
 
@@ -103,79 +103,71 @@ npm run preview
 
 ## Bot 功能配置
 
-项目集成了人格 Bot 功能，使用硅基流动 API。
-
-### 重要说明
-
-由于 GitHub Pages 是静态网站托管服务，无法在运行时访问服务器端的环境变量或 Secrets。API Key 必须在**构建时**打包到代码中。这意味着：
-
-✅ **部署到 GitHub Pages 后，所有访问者都可以使用 Bot 功能**（这是您期望的行为）  
-⚠️ **API Key 会被嵌入到前端代码中**（虽然不直接可见，但技术人员可以提取）  
-💡 **建议使用限流和配额控制**来防止滥用
-
-### 配置步骤
-
-#### 1. 本地开发配置
-
-1. 复制 `.env.example` 为 `.env`：
-   ```bash
-   cp .env.example .env
-   ```
-
-2. 在 `.env` 文件中填入你的硅基流动 API Key：
-   ```
-   VITE_SILICONFLOW_API_KEY=your_api_key_here
-   ```
-
-3. 保持 `src/config/deploy.ts` 中的 `IS_GITHUB_PAGES = 0`：
-   ```typescript
-   export const IS_GITHUB_PAGES = 0;  // 本地开发
-   ```
-
-#### 2. GitHub Pages 部署配置
-
-1. **配置 GitHub Secret**：
-   - 进入仓库的 Settings > Secrets and variables > Actions
-   - 点击 "New repository secret"
-   - Name: `SILICONFLOW_API_KEY`
-   - Value: 你的硅基流动 API Key
-   - 点击 "Add secret"
-
-2. **修改部署标志**：
-   - 打开 `src/config/deploy.ts`
-   - 将 `IS_GITHUB_PAGES` 改为 `1`：
-     ```typescript
-     export const IS_GITHUB_PAGES = 1;  // 准备部署到 GitHub Pages
-     ```
-
-3. **提交并推送**：
-   ```bash
-   git add .
-   git commit -m "Deploy to GitHub Pages"
-   git push origin main
-   ```
-
-4. **等待自动部署完成**（约 2-3 分钟）
-
-#### 3. 工作原理
+Ask Starry 使用硅基流动的 `deepseek-ai/DeepSeek-V3.2`，人格提示位于 `backend/src/persona.ts`。前端只发送问题与 Turnstile 验证令牌，Worker 固定模型、提示词、300 个输出 token 和 200 字回答上限。
 
 ```mermaid
-本地开发:
-  .env 文件 → VITE_SILICONFLOW_API_KEY → 构建 → 本地预览
-
-GitHub Pages 部署:
-  GitHub Secret → GitHub Actions → VITE_SILICONFLOW_API_KEY → 构建 → 静态文件 → GitHub Pages
-                                                                   ↓
-                                                            (API Key 已打包在代码中)
-                                                                   ↓
-                                                            访问者可以使用 Bot 功能
+flowchart LR
+  A[GitHub Pages / Macintosh UI] -->|问题 + 验证令牌| B[Cloudflare Worker]
+  B --> C[Turnstile 服务端验证]
+  B --> D[Durable Object 配额]
+  B -->|服务端密钥| E[硅基流动]
+  E -->|回答| B
+  B -->|回答 / 安全错误提示| A
 ```
 
-**关键点**：
-- `IS_GITHUB_PAGES` 标志用于区分环境，提供不同的错误提示
-- 无论本地还是 GitHub Pages，API Key 都是在**构建时**通过 `import.meta.env.VITE_SILICONFLOW_API_KEY` 注入
-- 本地：从 `.env` 文件读取
-- GitHub Pages：从 GitHub Actions 环境变量读取（来自 Secret）
+### 本地联调
+
+```bash
+npm ci
+npm ci --prefix backend
+cp backend/.dev.vars.example backend/.dev.vars.local
+# 编辑 backend/.dev.vars.local，填入 SILICONFLOW_API_KEY
+npm run dev --prefix backend
+# 另一个终端：
+npm run dev
+```
+
+Vite 的开发和预览服务器将 `/api` 转发到 `127.0.0.1:8787`。`.dev.vars.local` 已加入忽略列表；不要把密钥放入任何 `VITE_` 变量。仅 `--env local` 且请求地址为 localhost 时跳过 Turnstile；生产接口缺少密钥、验证 Secret 或配额配置时拒绝服务。
+
+### Cloudflare 部署
+
+1. 在 Cloudflare Turnstile 创建 Managed widget，允许 `mustbeasaltyfish.github.io`。记录公开的 Site key；Secret key 仅交给 Worker。
+2. 在 `backend` 目录登录并部署 Worker：
+
+   ```bash
+   npx wrangler login
+   npm run deploy
+   npx wrangler secret put SILICONFLOW_API_KEY --env ""
+   npx wrangler secret put TURNSTILE_SECRET_KEY --env ""
+   ```
+
+   `secret put` 会交互式读取密钥，不要将密钥写进命令行或 `wrangler.jsonc`。Worker 首次部署后，在配置齐全之前处于拒绝服务状态。
+3. 在 GitHub 仓库 **Settings → Secrets and variables → Actions → Variables** 配置公开变量：
+
+   | 变量 | 值 |
+   | --- | --- |
+   | `VITE_BOT_API_URL` | `https://<Worker 地址>/api/chat` |
+   | `VITE_TURNSTILE_SITE_KEY` | Turnstile Site key |
+
+4. 按当前分支的审核/合并流程发布主页。GitHub Actions 不再读取硅基流动密钥。若旧版本曾上线并将密钥打包到前端，需要先在硅基流动撤销/轮换旧密钥；新的服务端架构不能消除历史泄露。
+
+### 配额与安全边界
+
+`backend/wrangler.jsonc` 默认只允许本站 Origin，Turnstile 验证每次请求的 token、hostname 和 `starry-chat` action。CORS 约束浏览器访问，不能替代验证和限流。
+
+全局单个 SQLite Durable Object 通过存储事务预留额度，默认每个 IP 每分钟 3 次、每天 20 次、全站每天 200 次；UTC 零点重置。失败的模型请求也消耗额度，以限制失败重试的开销。只存当天计数和 IP 的 SHA-256 摘要，不保存问题或回答。共享网络的访客会共享 IP 配额。这是请求数上限，不能替代供应商账单预算；不保证公开服务完全无法被滥用。
+
+Worker 不向浏览器转发供应商错误、授权头或密钥；服务端请求有超时限制。`GET /api/health` 返回配置是否齐全，不能代替真实问答检查。
+
+### 验证
+
+```bash
+npm run build
+npm run check --prefix backend
+npm test --prefix backend
+```
+
+测试覆盖非法来源与输入、生产配置缺失、验证失败、服务端固定模型、上游错误脱敏、限流和日额度重置。生产部署后，还需用真实 Turnstile 在主页完成问答，再确认失败令牌被拒绝。
 
 ## 开发注意事项
 

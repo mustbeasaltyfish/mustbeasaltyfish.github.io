@@ -34,6 +34,7 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
     maxY: number;
   } | null>(null);
   function open(next: Page) {
+    if (next === "bot" && !expanded) onExpand(true);
     setPage(next);
     setOffset({ x: 0, y: 0 });
     setMenu(null);

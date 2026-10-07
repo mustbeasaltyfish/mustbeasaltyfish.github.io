@@ -72,3 +72,9 @@ out
 *.tmp
 *.temp
 
+
+# Server-side credentials and local Worker state
+.dev.vars
+.dev.vars.*
+!backend/.dev.vars.example
+backend/.wrangler/

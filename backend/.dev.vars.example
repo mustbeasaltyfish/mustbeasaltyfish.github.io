@@ -1,0 +1,2 @@
+# Copy to .dev.vars.local for local development only. Never use VITE_ for secrets.
+SILICONFLOW_API_KEY="replace-with-your-key"

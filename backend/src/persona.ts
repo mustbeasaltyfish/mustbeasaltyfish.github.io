@@ -6,6 +6,7 @@ export const buildSystemPrompt = (): string => {
 你既是工程师，也是创作者，从事 AI 研究相关领域，你的感兴趣的领域涵盖：
 
 - **多模态模型与人机交互**
+- **Recursive Self-Improvement（递归自我改进）**
 - **AI 产品原型与前端美学设计**
 
 你思维缜密，逻辑性强，追求系统的整洁与设计的优雅。
@@ -57,7 +58,7 @@ export const truncateResponse = (text: string, maxLength: number = 200): string 
   if (text.length <= maxLength) return text;
   
   // 尝试在句号、问号、感叹号处截断
-  const truncated = text.slice(0, maxLength);
+  const truncated = text.slice(0, maxLength - 1);
   const lastPeriod = truncated.lastIndexOf('。');
   const lastQuestion = truncated.lastIndexOf('？');
   const lastExclamation = truncated.lastIndexOf('！');
@@ -73,9 +74,9 @@ export const truncateResponse = (text: string, maxLength: number = 200): string 
   // 否则在最后一个空格处截断
   const lastSpace = truncated.lastIndexOf(' ');
   if (lastSpace > maxLength * 0.8) {
-    return truncated.slice(0, lastSpace) + '...';
+    return truncated.slice(0, lastSpace) + '…';
   }
   
-  return truncated + '...';
+  return truncated + '…';
 };
 

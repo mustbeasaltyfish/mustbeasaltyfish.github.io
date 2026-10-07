@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
 // https://vitejs.dev/config/
+if (process.env.GITHUB_PAGES) {
+  const api = process.env.VITE_BOT_API_URL;
+  if (!api || !api.startsWith('https://') || !process.env.VITE_TURNSTILE_SITE_KEY) {
+    throw new Error('GitHub Pages requires VITE_BOT_API_URL (HTTPS) and VITE_TURNSTILE_SITE_KEY. Provider secrets must remain in Cloudflare.');
+  }
+}
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -20,6 +26,8 @@ export default defineConfig({
           ? `/${process.env.REPO_NAME}/`
           : '/')
     : '/',
+  server: { proxy: { '/api': 'http://127.0.0.1:8787' } },
+  preview: { proxy: { '/api': 'http://127.0.0.1:8787' } },
   build: {
     outDir: 'dist',
     sourcemap: false,

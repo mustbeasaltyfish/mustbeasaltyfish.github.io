@@ -1,0 +1,20 @@
+{
+  "name": "starry-bot-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --env local --ip 127.0.0.1 --port 8787",
+    "check": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "deploy": "wrangler deploy --env \"\""
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261007.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.148.0"
+  },
+  "overrides": {
+    "sharp": "^0.35.5"
+  }
+}

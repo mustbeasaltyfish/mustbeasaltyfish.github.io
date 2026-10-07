@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "starry-bot-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-07",
+  "workers_dev": true,
+  "vars": {
+    "ENVIRONMENT": "production",
+    "ALLOWED_ORIGINS": "https://mustbeasaltyfish.github.io",
+    "DAILY_LIMIT": "200", "CLIENT_DAILY_LIMIT": "20", "CLIENT_MINUTE_LIMIT": "3"
+  },
+  "durable_objects": {"bindings": [{"name": "QUOTA", "class_name": "BotQuota"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["BotQuota"]}],
+  "env": {
+    "local": {
+      "name": "starry-bot-api-local",
+      "vars": {
+        "ENVIRONMENT": "development",
+        "ALLOWED_ORIGINS": "http://127.0.0.1:4173,http://localhost:4173,http://127.0.0.1:5173,http://localhost:5173",
+        "DAILY_LIMIT": "200", "CLIENT_DAILY_LIMIT": "20", "CLIENT_MINUTE_LIMIT": "3"
+      },
+      "durable_objects": {"bindings": [{"name": "QUOTA", "class_name": "BotQuota"}]}
+    }
+  }
+}

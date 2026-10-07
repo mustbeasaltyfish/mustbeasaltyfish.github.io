@@ -1433,3 +1433,6 @@
     font-size: 20px;
   }
 }
+
+.bot-verification { margin-top: 16px; }
+.bot-verification p { font-size: 14px; }
