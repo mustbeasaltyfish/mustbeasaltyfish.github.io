@@ -1,0 +1,385 @@
+/* One object, with all navigation and content inside its screen. */
+.studio {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 48px 42px;
+  overflow: clip;
+  background: #f7f7f5;
+}
+.macintosh {
+  --case-width: min(560px, calc((100svh - 130px) / 1.38), calc(100vw - 110px));
+  position: relative;
+  width: var(--case-width);
+  margin: 0 auto;
+}
+.machine-sticker {
+  position: relative;
+  padding: 6px;
+  border-radius: 17px 18px 12px 12px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px #665f4d24,
+    8px 15px 22px #574b3414,
+    16px 30px 44px #574b3410;
+  transform: rotate(-1deg);
+}
+.machine-side {
+  position: absolute;
+  right: -17px;
+  top: 23px;
+  bottom: 7px;
+  width: 45px;
+  border: 6px solid #fff;
+  border-radius: 0 13px 12px 0;
+  background: linear-gradient(90deg, #c9c0a7, #b8ae92);
+  transform: skewY(-5deg);
+}
+.machine-front {
+  position: relative;
+  padding: calc(var(--case-width) * 0.115) calc(var(--case-width) * 0.07) 0;
+  border: 1px solid #d0c7b1;
+  border-radius: 11px 12px 6px 6px;
+  background: linear-gradient(110deg, #e4decb, #ddd6bf 48%, #d1c8af);
+  box-shadow:
+    inset 3px 4px 4px #fff9e1,
+    inset -3px -2px 5px #93886a55;
+}
+.machine-front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.2' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* A shallow view of the top: recessed handle between two vent banks. */
+.case-top {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  right: 10px;
+  height: calc(var(--case-width) * 0.045);
+  border-bottom: 1px solid #c5bba24d;
+  background: linear-gradient(#ede8d9, #e2dbc8);
+  clip-path: polygon(
+    3% 0,
+    26% 0,
+    28% 25%,
+    72% 25%,
+    74% 0,
+    97% 0,
+    100% 100%,
+    0 100%
+  );
+}
+.case-top i {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 20%;
+  background: repeating-linear-gradient(
+    to bottom,
+    #b9af9433 0 1px,
+    transparent 1px 4px
+  );
+  transform: skewX(-15deg);
+}
+.case-top i:first-child {
+  left: 4%;
+}
+.case-top i:last-child {
+  right: 4%;
+}
+.screen-bezel {
+  position: relative;
+  padding: calc(var(--case-width) * 0.027);
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    #aa9e80,
+    #c2b79b 14%,
+    #e7dfc9 75%,
+    #ede5ce
+  );
+  box-shadow:
+    -1px -1px 2px #b2a687,
+    1px 2px 2px #fff1d5,
+    inset 3px 4px 7px #786c5066;
+}
+.crt-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 512 / 342;
+  container-type: inline-size;
+  background: #eeeee5;
+  border: 3px solid #34392f;
+  border-radius: 16px / 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #7c755e,
+    inset 0 0 10px #21231e66,
+    0 2px 2px #73664e;
+}
+.screen-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 30;
+  box-shadow: inset 0 0 14px #24271d25;
+  background: linear-gradient(125deg, #fff3 0, #fff0 22%, #fff0 80%, #151c0c08);
+}
+.machine-chin {
+  position: relative;
+  height: calc(var(--case-width) * 0.39);
+}
+.machine-brand {
+  position: absolute;
+  left: 0;
+  bottom: 22%;
+  width: clamp(18px, calc(var(--case-width) * 0.043), 24px);
+  padding: 2px 3px;
+  border: 1px solid #b8ad91;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #d4cdbb, #ebe5d5);
+  box-shadow:
+    0 1px #f1e9d4,
+    inset 0 1px #f8f0df;
+}
+.apple-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.floppy-drive {
+  position: absolute;
+  right: 3%;
+  top: 48%;
+  width: 43%;
+  height: clamp(5px, calc(var(--case-width) * 0.014), 8px);
+  background: #332e25;
+  border-top: 2px solid #a49777;
+  box-shadow:
+    0 2px #efe5ce,
+    inset 0 2px 2px #15130e;
+}
+.floppy-drive span {
+  position: absolute;
+  right: -3%;
+  top: -7px;
+  width: 25%;
+  height: 21px;
+  border-radius: 2px;
+  background: linear-gradient(#b1a58a, #d1c5ab);
+  box-shadow:
+    inset 1px 1px 3px #96876a,
+    1px 1px #ece2c7;
+}
+.floppy-drive span::after {
+  content: "";
+  position: absolute;
+  inset: 6px 4px 6px 1px;
+  background: #28261f;
+  box-shadow: inset 0 2px #0e0f0c;
+}
+.floppy-drive i {
+  position: absolute;
+  right: -8%;
+  top: 8px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #63593f;
+}
+.power-button {
+  position: absolute;
+  right: -16px;
+  bottom: 5px;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+}
+.power-button > span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #8c9471;
+}
+.power-button.off > span {
+  background: #a4987d;
+}
+.case-foot {
+  height: calc(var(--case-width) * 0.055);
+  margin: 0 -18px;
+  border-radius: 1px 1px 4px 4px;
+  background: linear-gradient(#b5aa8e, #d4cbb3 22%, #cdc3a9);
+  border-top: 1px solid #b9ae93;
+  box-shadow: inset 0 -2px 3px #9b8f7240;
+}
+.peripherals {
+  height: 105px;
+  position: relative;
+  margin-top: 23px;
+}
+.keyboard {
+  position: absolute;
+  width: 95%;
+  left: -6%;
+  top: 0;
+  border: 5px solid #fff;
+  border-radius: 6px 6px 9px 9px;
+  background: linear-gradient(#ccc2a9, #e2d9c1);
+  padding: 9px 11px 18px;
+  transform: perspective(450px) rotateX(30deg) rotateZ(-1deg);
+  box-shadow:
+    inset 0 -8px #b8ad91,
+    inset 0 2px #f4e9cd,
+    2px 6px 1px #a79b8022,
+    5px 14px 18px #76674c12;
+}
+.keyboard-keys {
+  display: grid;
+  gap: 3px;
+}
+.key-row {
+  display: flex;
+  gap: 3px;
+}
+.key-row span {
+  text-align: center;
+  background: #eae4d3;
+  color: #877d69;
+  flex: 1;
+  height: 12px;
+  font-size: 5px;
+  line-height: 10px;
+  border-radius: 2px;
+  box-shadow:
+    0 2px #b2a78e,
+    inset 0 1px #fff7e6;
+}
+.key-row span:first-child {
+  flex: 1.4;
+  background: #d4cbb7;
+}
+.key-row span:last-child {
+  flex: 1.2;
+  background: #d4cbb7;
+}
+.bottom-keys {
+  width: 76%;
+  margin: 0 auto;
+}
+.bottom-keys span:nth-child(3) {
+  flex: 8;
+}
+.mouse {
+  position: absolute;
+  right: -10%;
+  top: 23px;
+  width: 51px;
+  height: 70px;
+  border: 5px solid #fff;
+  border-radius: 8px 8px 15px 15px;
+  background: linear-gradient(120deg, #e2dac5, #c7bc9f);
+  transform: rotate(12deg);
+  box-shadow:
+    inset 2px 1px 2px #f7ebcf,
+    inset -2px -3px 3px #9e907366,
+    5px 10px 15px #75684e15;
+}
+.mouse > div {
+  height: 19px;
+  margin: 4px 4px 0;
+  border-radius: 2px;
+  background: #c8bca2;
+  box-shadow:
+    inset 0 1px #ede1c8,
+    0 1px #a3987e;
+}
+.mouse-cable {
+  position: absolute;
+  right: -8%;
+  top: -39px;
+  width: 84px;
+  height: 76px;
+  border: 2px solid #bcb6a5;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 80% 0 0;
+  transform: rotate(8deg);
+}
+.macintosh.is-expanded .machine-sticker {
+  transform: none;
+}
+@media (max-width: 600px) {
+  .studio {
+    padding: 40px 28px;
+  }
+  .macintosh {
+    --case-width: min(420px, calc(100vw - 68px));
+  }
+  .machine-sticker {
+    padding: 5px;
+    border-radius: 13px 14px 9px 9px;
+  }
+  .machine-side {
+    right: -12px;
+    top: 16px;
+    width: 30px;
+    border-width: 5px;
+  }
+  .machine-front {
+    border-radius: 9px 9px 5px 5px;
+  }
+  .crt-screen {
+    border-width: 2px;
+    border-radius: 11px / 9px;
+    min-height: 215px;
+  }
+  .floppy-drive span {
+    top: -5px;
+    height: 16px;
+  }
+  .floppy-drive span::after {
+    inset: 4px 3px 5px 1px;
+  }
+  .case-foot {
+    margin: 0 -12px;
+  }
+  .peripherals {
+    height: 88px;
+    margin-top: 18px;
+  }
+  .keyboard {
+    padding: 7px 7px 13px;
+    border-width: 4px;
+  }
+  .key-row {
+    gap: 2px;
+  }
+  .key-row span {
+    height: 9px;
+    line-height: 8px;
+    font-size: 4px;
+  }
+  .mouse {
+    width: 38px;
+    height: 53px;
+    top: 20px;
+    right: -7%;
+    border-width: 4px;
+  }
+  .mouse > div {
+    margin: 3px;
+    height: 14px;
+  }
+  .mouse-cable {
+    right: -5%;
+    width: 59px;
+    height: 69px;
+  }
+}

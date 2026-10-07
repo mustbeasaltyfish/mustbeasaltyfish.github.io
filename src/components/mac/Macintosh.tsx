@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { AppleLogo } from "./AppleLogo";
 import { Desktop } from "./Desktop";
 import { PixelIcon } from "./PixelIcon";
 export function Macintosh({
@@ -12,7 +13,6 @@ export function Macintosh({
   const [sleeping, setSleeping] = useState(false);
   const [session, setSession] = useState(0);
   const bezel = useRef<HTMLDivElement>(null);
-  const expandButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!boot) return;
     const timer = window.setTimeout(
@@ -24,7 +24,7 @@ export function Macintosh({
   useEffect(() => {
     if (!expanded) return;
     const previous = document.activeElement as HTMLElement | null;
-    const fallback = expandButton.current;
+    const fallback = bezel.current;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     bezel.current?.focus();
@@ -74,7 +74,10 @@ export function Macintosh({
       <div className="machine-sticker">
         <div className="machine-side" aria-hidden="true" />
         <div className="machine-front">
-          <div className="case-top-detail" aria-hidden="true" />
+          <div className="case-top" aria-hidden="true">
+            <i />
+            <i />
+          </div>
           <div
             className="screen-bezel"
             ref={bezel}
@@ -122,27 +125,13 @@ export function Macintosh({
             </div>
           </div>
           <div className="machine-chin">
-            <div className="machine-brand">
-              <div className="rainbow-mark" aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-              <span>Macintosh</span>
+            <div className="machine-brand" aria-label="Apple">
+              <AppleLogo rainbow />
             </div>
             <div className="floppy-drive" aria-hidden="true">
               <span />
               <i />
             </div>
-            <div className="speaker-grille" aria-hidden="true">
-              {Array.from({ length: 5 }, (_, i) => (
-                <i key={i} />
-              ))}
-            </div>
-            <span className="machine-serial">STARRY / PERSONAL EDITION</span>
             <button
               className={`power-button ${sleeping ? "off" : ""}`}
               onClick={() => (sleeping ? restart() : setSleeping(true))}
@@ -161,9 +150,9 @@ export function Macintosh({
         <div className="keyboard">
           <div className="keyboard-keys">
             {[
-              "esc  1  2  3  4  5  6  7  8  9  0  −  +",
+              "`  1  2  3  4  5  6  7  8  9  0  −  =",
               "tab  Q  W  E  R  T  Y  U  I  O  P  [  ]",
-              "ctrl  A  S  D  F  G  H  J  K  L  ;  ↵",
+              "caps  A  S  D  F  G  H  J  K  L  ;  ↵",
               "shift  Z  X  C  V  B  N  M  ,  .  /",
             ].map((row, i) => (
               <div className="key-row" key={i}>
@@ -173,6 +162,7 @@ export function Macintosh({
               </div>
             ))}
             <div className="key-row bottom-keys">
+              <span>option</span>
               <span>⌘</span>
               <span />
               <span>⌘</span>
@@ -184,13 +174,6 @@ export function Macintosh({
           <div />
         </div>
       </div>
-      <button
-        className="expand-control"
-        ref={expandButton}
-        onClick={() => onExpand(true)}
-      >
-        <span>⤢</span> A closer look <small>EXPAND SCREEN</small>
-      </button>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+@import "./macintosh-hardware.css";
 @import "./macintosh.css";
 @tailwind base;
 @tailwind components;
@@ -5,7 +6,7 @@
 :root {
   font-family: "Work Sans", sans-serif;
   color: #302f29;
-  background: #f5f2e9;
+  background: #f7f7f5;
   font-synthesis: none;
 }
 * {

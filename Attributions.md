@@ -6,10 +6,12 @@ The Macintosh redesign uses **ChiKareGo** by Giles Booth, a Chicago-inspired fon
 distributed by its author under Creative Commons Attribution (version unspecified).
 The original font is bundled without modification. [Author's font page](https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=3778).
 
-**Young Serif** and **Work Sans** are bundled under the SIL Open Font License 1.1;
-their license texts are included in `src/assets/fonts/`.
+**Work Sans** is bundled under the SIL Open Font License 1.1;
+its license text is included in `src/assets/fonts/`.
 
 The hardware illustration, pixel icons, and cursor SVGs are drawn for this project.
 Historical design references: [Andy Hertzfeld's interface history](https://www.folklore.org/Busy_Being_Born.html),
 [the original Macintosh enclosure design](https://folklore.org/More_Like_A_Porsche.html),
 and [Computer History Museum's Macintosh exhibition](https://computerhistory.org/exhibits/hello-the-mac-at-40/).
+
+The Apple silhouette is adapted from [Apple’s official website navigation](https://www.apple.com/imac/). The rainbow badge recreates the historical six-color treatment. Apple and the Apple logo are trademarks of Apple Inc.

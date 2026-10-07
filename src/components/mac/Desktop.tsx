@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { AppleLogo } from "./AppleLogo";
 import { PixelIcon } from "./PixelIcon";
 import { pages, WindowContent, type Page } from "./WindowContent";
 type Menu = "apple" | "File" | "Edit" | "View" | "Special";
@@ -157,7 +158,7 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
                 aria-haspopup="true"
                 onClick={() => setMenu(menu === item ? null : item)}
               >
-                {item === "apple" ? <PixelIcon name="happy" /> : item}
+                {item === "apple" ? <AppleLogo /> : item}
               </button>
               {menu === item && (
                 <div className="mac-dropdown">
