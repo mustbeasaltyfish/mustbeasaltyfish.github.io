@@ -313,14 +313,6 @@
 .desktop-status button:hover {
   text-decoration: underline;
 }
-.welcome-content {
-  padding: 12px 16px 0;
-}
-.welcome-top {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
 .portrait {
   width: 58px;
   height: 62px;
@@ -340,42 +332,6 @@
   line-height: 1.2;
   font-size: 9px;
   letter-spacing: 0.3px;
-}
-.welcome-top h2 {
-  font-family: "Chicago", monospace;
-  font-size: 32px;
-  line-height: 1;
-  font-weight: 400;
-  margin: 5px 0 3px;
-}
-.welcome-top p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.2;
-}
-.welcome-star {
-  margin-left: auto;
-  width: 25px;
-  height: 25px;
-}
-.welcome-rule {
-  border-top: 1px solid #171914;
-  margin: 10px 0;
-}
-.welcome-description {
-  font-size: 16px;
-  line-height: 1.25;
-  margin: 0 0 8px;
-}
-.welcome-aside {
-  font-size: 12px;
-  line-height: 1.25;
-  margin: 0 0 12px;
-}
-.welcome-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 .mac-button {
   color: #171914;
@@ -404,25 +360,6 @@
 .mac-button:disabled {
   opacity: 0.5;
   cursor: wait;
-}
-.welcome-actions .primary span {
-  margin-left: 13px;
-}
-.welcome-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  border-top: 1px dotted #8b8f80;
-  margin-top: 12px;
-  padding: 5px 0;
-}
-.welcome-bottom i {
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  background: #171914;
-  margin-right: 3px;
 }
 .about-content,
 .bot-content,
@@ -549,9 +486,6 @@
 }
 .is-expanded .personality-caption > span {
   font-size: 16px;
-}
-.desktop-entry {
-  animation: entry-invite 1.6s steps(2, end) 3;
 }
 @keyframes icon-arrive {
   from {
@@ -837,15 +771,11 @@
   font-size: 15px;
   padding: 6px 12px;
 }
-.is-expanded .welcome-content,
 .is-expanded .about-content,
 .is-expanded .bot-content,
 .is-expanded .contact-content,
 .is-expanded .system-content {
   padding: 30px;
-}
-.is-expanded .welcome-top h2 {
-  font-size: 52px;
 }
 .is-expanded .portrait {
   width: 80px;
@@ -854,28 +784,9 @@
 .is-expanded .tiny-label {
   font-size: 12px;
 }
-.is-expanded .welcome-top p {
-  font-size: 22px;
-}
-.is-expanded .welcome-description {
-  font-size: 25px;
-  margin-bottom: 16px;
-}
-.is-expanded .welcome-rule {
-  margin: 24px 0 20px;
-}
-.is-expanded .welcome-aside {
-  font-size: 18px;
-  margin-bottom: 24px;
-}
 .is-expanded .mac-button {
   font-size: 18px;
   padding: 8px 18px;
-}
-.is-expanded .welcome-bottom {
-  font-size: 13px;
-  margin-top: 30px;
-  padding-top: 14px;
 }
 .is-expanded .content-heading h2 {
   font-size: 34px;
@@ -915,38 +826,12 @@
   .mac-desktop {
     font-size: 13px;
   }
-  .welcome-content {
-    padding: 11px 13px 0;
-  }
-  .welcome-top {
-    gap: 9px;
-  }
   .portrait {
     width: 46px;
     height: 51px;
   }
-  .welcome-top h2 {
-    font-size: 29px;
-  }
   .tiny-label {
     font-size: 7px;
-  }
-  .welcome-top p {
-    font-size: 13px;
-  }
-  .welcome-description {
-    font-size: 15px;
-  }
-  .welcome-aside {
-    font-size: 11px;
-    margin-bottom: 10px;
-  }
-  .welcome-rule {
-    margin: 10px 0 8px;
-  }
-  .welcome-bottom {
-    margin-top: 13px;
-    font-size: 8px;
   }
   .mac-button {
     font-size: 13px;
@@ -982,11 +867,6 @@
     padding: 3px 7px;
   }
   .trash-icon {
-    display: none;
-  }
-}
-@media (max-width: 960px) {
-  .welcome-star {
     display: none;
   }
 }
@@ -1078,12 +958,6 @@
   .window-info > span:last-child {
     display: none;
   }
-  .welcome-content {
-    padding: 12px 11px 0;
-  }
-  .welcome-top {
-    gap: 9px;
-  }
   .portrait {
     width: 41px;
     height: 45px;
@@ -1092,33 +966,9 @@
     font-size: 6px;
     letter-spacing: 0;
   }
-  .welcome-top h2 {
-    font-size: 25px;
-  }
-  .welcome-top p {
-    font-size: 12px;
-  }
-  .welcome-description {
-    font-size: 14px;
-  }
-  .welcome-aside {
-    font-size: 11px;
-  }
-  .welcome-bottom {
-    font-size: 8px;
-  }
-  .welcome-bottom > span:last-child {
-    display: none;
-  }
-  .welcome-actions {
-    gap: 7px;
-  }
   .mac-button {
     font-size: 12px;
     padding: 5px 7px;
-  }
-  .welcome-actions .primary span {
-    margin-left: 3px;
   }
   .desktop-status {
     font-size: 10px;
@@ -1212,15 +1062,11 @@
     height: calc(100% - 78px);
     width: calc(100% - 83px);
   }
-  .is-expanded .welcome-content,
   .is-expanded .about-content,
   .is-expanded .bot-content,
   .is-expanded .contact-content,
   .is-expanded .system-content {
     padding: 20px 14px;
-  }
-  .is-expanded .welcome-top {
-    flex-wrap: wrap;
   }
   .is-expanded .portrait {
     width: 56px;
@@ -1229,24 +1075,9 @@
   .is-expanded .tiny-label {
     font-size: 8px;
   }
-  .is-expanded .welcome-top h2 {
-    font-size: 32px;
-  }
-  .is-expanded .welcome-top p {
-    font-size: 16px;
-  }
-  .is-expanded .welcome-description {
-    font-size: 20px;
-  }
-  .is-expanded .welcome-aside {
-    font-size: 16px;
-  }
   .is-expanded .mac-button {
     font-size: 15px;
     padding: 7px 10px;
-  }
-  .is-expanded .welcome-bottom {
-    font-size: 11px;
   }
   .is-expanded .window-info {
     font-size: 11px;
@@ -1355,67 +1186,22 @@
   .macintosh:not(.is-expanded) .window-info > span:last-child {
     display: none;
   }
-  .macintosh:not(.is-expanded) .welcome-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 11px 12px;
-  }
-  .macintosh:not(.is-expanded) .welcome-top {
-    gap: 8px;
-  }
   .macintosh:not(.is-expanded) .portrait {
     width: 39px;
     height: 42px;
   }
-  .macintosh:not(.is-expanded) .tiny-label,
-  .macintosh:not(.is-expanded) .welcome-star {
+  .macintosh:not(.is-expanded) .tiny-label {
     display: none;
-  }
-  .macintosh:not(.is-expanded) .welcome-top h2 {
-    font-size: 27px;
-    white-space: nowrap;
-  }
-  .macintosh:not(.is-expanded) .welcome-top p {
-    font-size: 12px;
-  }
-  .macintosh:not(.is-expanded) .welcome-actions {
-    order: 1;
-    gap: 8px;
   }
   .macintosh:not(.is-expanded) .mac-button {
     font-size: 12px;
     padding: 5px 7px;
   }
-  .macintosh:not(.is-expanded) .welcome-actions .primary span {
-    margin-left: 3px;
-  }
-  .macintosh:not(.is-expanded) .welcome-rule {
-    order: 2;
-    margin: 1px 0;
-  }
-  .macintosh:not(.is-expanded) .welcome-description {
-    display: none;
-  }
-  .macintosh:not(.is-expanded) .welcome-aside,
-  .macintosh:not(.is-expanded) .welcome-bottom {
-    display: none;
-  }
 }
 @container (max-width: 310px) {
-  .macintosh:not(.is-expanded) .welcome-content {
-    gap: 9px;
-    padding: 9px 10px;
-  }
   .macintosh:not(.is-expanded) .portrait {
     width: 32px;
     height: 36px;
-  }
-  .macintosh:not(.is-expanded) .welcome-top h2 {
-    font-size: 22px;
-  }
-  .macintosh:not(.is-expanded) .welcome-actions > button:last-child {
-    display: none;
   }
 }
 @container (max-width: 240px) {
@@ -1423,14 +1209,8 @@
     font-size: 11px;
     padding: 5px;
   }
-  .macintosh:not(.is-expanded) .welcome-actions .primary span {
-    display: none;
-  }
   .macintosh:not(.is-expanded) .portrait {
     display: none;
-  }
-  .macintosh:not(.is-expanded) .welcome-top h2 {
-    font-size: 20px;
   }
 }
 

@@ -6,9 +6,9 @@
 
 主页仅展示一台居中的 Macintosh，所有内容与导航都在屏幕内。外观以初代 Macintosh 为灵感：带贴纸白边与材质阴影的米色机身，屏幕内运行可交互的黑白桌面。机身使用 CSS 绘制，像素图标和光标使用 SVG，不依赖 WebGL 或外部图片服务。
 
-- 点击桌面图标打开欢迎、个人介绍、思考、友人或联系方式；点击窗口左上角关闭。
+- `Starry HD` 是个人主页第一页：学历、Agentic Memory 工作、Long-horizon 研究兴趣和字节 AutoBench 实习经历；`About me` 展示性格与个人兴趣。点击桌面图标切换页面，点击窗口左上角关闭。
 - 拖动窗口标题栏可移动窗口，范围限制在屏幕内；触屏端保留点击和滚动。
-- 欢迎窗口通过 `Enter desktop` 明确提示进入全屏桌面，状态栏也保留入口；点击窗口右上角或 `View > Expand screen` 也可进入，按 Escape 返回。全屏默认窗口占据桌面的主要区域。
+- 首页顶部通过 `Enter desktop` 明确提示进入全屏桌面，状态栏也保留入口；点击窗口右上角或 `View > Expand screen` 也可进入，按 Escape 返回。全屏默认窗口占据桌面的主要区域。
 - `About me` 保留原版七个性格图标的两秒轮播，使用黑白像素图标和阶梯切换；可暂停、手动切换，并遵守系统的减少动态效果设置。
 - `Special > Restart` 重放开机过程；机身右下角的指示灯可休眠，点击屏幕唤醒。
 - `Ask Starry` 通过 Cloudflare Worker 调用硅基流动；密钥仅保存在服务端，限流与配额由服务端执行。
@@ -99,7 +99,7 @@ npm run preview
 
 ## 图片资源
 
-头像位于 `src/assets/images/avatar.jpg`，由 `src/components/mac/WindowContent.tsx` 引用。机身、键盘和鼠标由 CSS 绘制；桌面图标为项目内 SVG；像素光标位于 `src/assets/images/mac-arrow.svg` 和 `mac-text.svg`。
+头像位于 `src/assets/images/avatar.jpg`，由 `src/components/mac/Home.tsx` 引用。机身、键盘和鼠标由 CSS 绘制；桌面图标为项目内 SVG；像素光标位于 `src/assets/images/mac-arrow.svg` 和 `mac-text.svg`。
 
 ## Bot 功能配置
 

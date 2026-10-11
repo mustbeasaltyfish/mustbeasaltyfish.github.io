@@ -1,0 +1,154 @@
+/* Personal homepage inside the existing monochrome Macintosh window. */
+.home-content {
+  --home-text: 14px;
+  --home-title: 30px;
+  --home-heading: 21px;
+  --home-space: 18px;
+  container-type: inline-size;
+  max-width: 1080px;
+  margin-inline: auto;
+  padding: var(--home-space);
+  font-size: var(--home-text);
+  line-height: 1.5;
+}
+.home-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.home-name { flex: 1; min-width: 0; }
+.home-name h2 {
+  font-size: var(--home-title);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 4px 0;
+  white-space: nowrap;
+}
+.home-name p { margin: 0; font-size: 0.9em; }
+.home-entry { flex-shrink: 0; }
+.home-entry span { margin-left: 6px; }
+.home-intro { max-width: 70ch; margin: 16px 0; }
+.home-education {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 24px;
+  padding: 14px 0;
+  border-block: 1px solid #171914;
+}
+.home-education dt { font-size: 0.8em; margin-bottom: 5px; }
+.home-education dd { margin: 0; }
+.home-education dd strong,
+.home-education dd span { display: block; }
+.home-education dd strong { font-size: 1.07em; font-weight: 400; }
+.home-education dd span { font-size: 0.9em; margin-top: 3px; }
+.home-section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 0.78em;
+  margin-bottom: 9px;
+}
+.home-section-label > span { border: 1px solid #171914; padding: 0 4px; line-height: 1.4; }
+.home-section h3 {
+  margin: 0 0 6px;
+  font-size: var(--home-heading);
+  line-height: 1.2;
+  font-weight: 400;
+}
+.home-research-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.home-section p { margin: 0 0 12px; max-width: 78ch; }
+.home-section .home-paper-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid #171914;
+  font-size: 0.85em;
+  margin-bottom: 10px;
+}
+.home-paper-status strong { background: #171914; color: #f6f7ee; font-weight: 400; }
+.home-paper-status strong,
+.home-paper-status span { padding: 3px 7px; }
+.home-section .home-subtitle { font-size: 0.88em; margin-bottom: 13px; }
+.home-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.home-topics span { border: 1px solid #171914; padding: 2px 7px; font-size: 0.78em; }
+.home-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 30px;
+  margin-top: 25px;
+  padding-top: 22px;
+  border-top: 1px solid #171914;
+}
+.home-pipeline { list-style: none; counter-reset: pipeline; padding: 0; margin: 14px 0 0; font-size: 0.85em; }
+.home-pipeline li {
+  counter-increment: pipeline;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 4px 0;
+  border-top: 1px dotted #8b8f80;
+}
+.home-pipeline li::before { content: counter(pipeline, decimal-leading-zero) " /"; flex-shrink: 0; }
+.home-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid #171914;
+}
+.home-text-link {
+  border: 0;
+  background: none;
+  padding: 4px 0;
+  font-size: 0.9em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.home-text-link:hover { color: #f6f7ee; background: #171914; }
+.is-expanded .home-content {
+  --home-text: 18px;
+  --home-title: 42px;
+  --home-heading: 27px;
+  --home-space: 28px;
+}
+@container (max-width: 650px) {
+  .home-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .home-columns .home-section + .home-section { padding-top: 22px; border-top: 1px solid #171914; }
+}
+@container (max-width: 420px) {
+  .home-education { grid-template-columns: minmax(0, 1fr); gap: 13px; }
+  .home-education > div + div { padding-top: 12px; border-top: 1px dotted #8b8f80; }
+  .home-name h2 { font-size: min(var(--home-title), 28px); }
+  .home-entry { flex-basis: 100%; margin-top: 4px; }
+}
+@media (max-width: 650px) {
+  .is-expanded .home-content {
+    --home-text: 16px;
+    --home-title: 32px;
+    --home-heading: 23px;
+    --home-space: 16px;
+  }
+}
+@container (max-width: 450px) {
+  .macintosh:not(.is-expanded) .home-content {
+    --home-text: 13px;
+    --home-title: 22px;
+    --home-heading: 20px;
+    --home-space: 6px;
+  }
+  .macintosh:not(.is-expanded) .home-header .tiny-label { display: none; }
+  .macintosh:not(.is-expanded) .home-header { gap: 6px; }
+  .macintosh:not(.is-expanded) .home-name h2 { margin: 2px 0; }
+  .macintosh:not(.is-expanded) .home-header .portrait { width: 39px; height: 42px; }
+  .macintosh:not(.is-expanded) .home-entry { font-size: 12px; padding: 5px 8px; margin-top: 0; }
+}

@@ -22,6 +22,7 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
   const [notice, setNotice] = useState("");
   const desktop = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{
     x: number;
@@ -38,6 +39,7 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
     setPage(next);
     setOffset({ x: 0, y: 0 });
     setMenu(null);
+    bodyRef.current?.scrollTo({ top: 0, left: 0 });
   }
   useEffect(() => {
     const timer = window.setInterval(() => setClock(time()), 30000);
@@ -113,7 +115,7 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
       { label: "Ask Starry…", action: () => open("bot") },
     ],
     File: [
-      { label: "Open welcome", action: () => open("home") },
+      { label: "Open Starry HD", action: () => open("home") },
       { label: "About me", action: () => open("about") },
       { label: "Contact me", action: () => open("contact") },
       {
@@ -235,16 +237,16 @@ export function Desktop({ expanded, onExpand, restart }: Props) {
           <div className="window-info">
             <span>
               {page === "home"
-                ? "1 very curious human"
+                ? "Yukai Wu / Starry"
                 : page === "bot"
                   ? "Personal assistant"
                   : "Starry’s personal disk"}
             </span>
             <span>
-              {page === "home" ? "∞ ideas available" : "Read & explore"}
+              {page === "home" ? "Research & experience" : "Read & explore"}
             </span>
           </div>
-          <div className="window-body" key={page} tabIndex={0}>
+          <div className="window-body" key={page} ref={bodyRef} tabIndex={0}>
             <WindowContent
               page={page}
               open={open}

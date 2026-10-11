@@ -1,9 +1,9 @@
 import { useRef, useState, type FormEvent } from "react";
-import avatar from "../../assets/images/avatar.jpg";
 import { getBotResponse } from "../../services/botService";
 import { Turnstile, turnstileSiteKey } from "./Turnstile";
 import { Personality } from "./Personality";
 import { PixelIcon, type IconName } from "./PixelIcon";
+import { Home } from "./Home";
 
 export type Page =
   | "home"
@@ -22,7 +22,7 @@ export const pages: {
 }[] = [
   {
     id: "home",
-    title: "Welcome to my little world",
+    title: "Yukai Wu — Personal homepage",
     label: "Starry HD",
     icon: "disk",
   },
@@ -174,49 +174,7 @@ export function WindowContent({
 }) {
   if (page === "bot") return <AskStarry />;
   if (page === "contact") return <Contact />;
-  if (page === "home")
-    return (
-      <div className="welcome-content">
-        <div className="welcome-top">
-          <div className="portrait">
-            <img src={avatar} alt="Starry" />
-          </div>
-          <div>
-            <span className="tiny-label">A HUMAN, NOT A COMPUTER.</span>
-            <h2>I'm Starry!</h2>
-            <p>{expanded ? "Welcome, friend." : "Open full screen."}</p>
-          </div>
-          <PixelIcon name="star" className="welcome-star" />
-        </div>
-        <div className="welcome-rule" />
-        <p className="welcome-description">
-          A tech guy. A sci-fi lover.
-          <br />A curious mind, always trying new things.
-        </p>
-        <p className="welcome-aside">
-          Pull up a window. Make yourself at home.
-        </p>
-        <div className="welcome-actions">
-          <button
-            className={`mac-button primary ${expanded ? "" : "desktop-entry"}`}
-            onClick={expanded ? () => open("bot") : enter}
-            aria-label={expanded ? "Ask about me" : "Enter full-screen desktop"}
-          >
-            {expanded ? "Ask about me" : "Enter desktop"}{" "}
-            <span>{expanded ? "↵" : "⤢"}</span>
-          </button>
-          <button className="mac-button" onClick={() => open("about")}>
-            Who am I?
-          </button>
-        </div>
-        <div className="welcome-bottom">
-          <span>
-            <i /> Available for good conversations
-          </span>
-          <span>hello.txt</span>
-        </div>
-      </div>
-    );
+  if (page === "home") return <Home open={open} expanded={expanded} enter={enter} />;
   if (page === "about")
     return (
       <div className="about-content">
