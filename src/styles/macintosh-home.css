@@ -26,8 +26,14 @@
   white-space: nowrap;
 }
 .home-name p { margin: 0; font-size: 0.9em; }
-.home-entry { flex-shrink: 0; }
+.home-entry {
+  flex-shrink: 0;
+  animation: entry-invite 1.6s steps(2, end) 3;
+}
 .home-entry span { margin-left: 6px; }
+@keyframes entry-invite {
+  50% { background: #171914; color: #f6f7ee; }
+}
 .home-intro { max-width: 70ch; margin: 16px 0; }
 .home-education {
   display: grid;
