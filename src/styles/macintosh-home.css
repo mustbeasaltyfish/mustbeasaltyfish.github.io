@@ -130,6 +130,7 @@
   .home-education > div + div { padding-top: 12px; border-top: 1px dotted #8b8f80; }
   .home-name h2 { font-size: min(var(--home-title), 28px); }
   .home-entry { flex-basis: 100%; margin-top: 4px; }
+  .home-header .cv-download { flex-basis: 100%; justify-content: center; }
 }
 @media (max-width: 650px) {
   .is-expanded .home-content {

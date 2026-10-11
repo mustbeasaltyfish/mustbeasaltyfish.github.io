@@ -4,6 +4,8 @@ import { Turnstile, turnstileSiteKey } from "./Turnstile";
 import { Personality } from "./Personality";
 import { PixelIcon, type IconName } from "./PixelIcon";
 import { Home } from "./Home";
+import { CvDownload } from "./CvDownload";
+import avatar from "../../assets/images/avatar.jpg";
 
 export type Page =
   | "home"
@@ -179,7 +181,9 @@ export function WindowContent({
     return (
       <div className="about-content">
         <div className="content-heading">
-          <PixelIcon name="happy" />
+          <div className="portrait">
+            <img src={avatar} alt="Starry's pixel-art avatar" />
+          </div>
           <div>
             <h2>Who am I?</h2>
             <p>Starry / Yukai Wu</p>
@@ -188,21 +192,25 @@ export function WindowContent({
         <div className="about-profile">
           <div className="about-copy">
             <p>
-              A boy, a tech guy, and a nerd who loves Computer Science and MLLM.
-              A sci-fi lover dreaming of space and starships.
+              I’m Yukai Wu, or Starry. I study computer science and explore
+              agent memory and reinforcement learning for long-horizon tasks.
             </p>
             <p>
-              Outgoing, passionate, always trying new things. I'd love to meet
-              friends with a similar curiosity.
+              A sci-fi lover dreaming of space and starships. Outgoing and
+              curious, I enjoy building things, trying new ideas, and meeting
+              people who share that curiosity.
             </p>
             <div className="interest-list">
-              <span>01 / Computer science</span>
+              <span>01 / Agent memory &amp; learning</span>
               <span>02 / Recursive Self-Improvement</span>
               <span>03 / Somewhere among the stars</span>
             </div>
-            <button className="mac-button" onClick={() => open("contact")}>
-              Let's be friends ↗
-            </button>
+            <div className="about-actions">
+              <button className="mac-button" onClick={() => open("contact")}>
+                Let's be friends ↗
+              </button>
+              <CvDownload />
+            </div>
           </div>
           <Personality />
         </div>

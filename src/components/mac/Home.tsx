@@ -1,4 +1,5 @@
 import avatar from "../../assets/images/avatar.jpg";
+import { CvDownload } from "./CvDownload";
 import type { Page } from "./WindowContent";
 import "../../styles/macintosh-home.css";
 
@@ -10,7 +11,7 @@ export function Home({ open, expanded, enter }: {
   return (
     <article className="home-content" aria-label="Yukai Wu's personal homepage">
       <header className="home-header">
-        <div className="portrait"><img src={avatar} alt="Starry" /></div>
+        <div className="portrait"><img src={avatar} alt="Starry's pixel-art avatar" /></div>
         <div className="home-name">
           <span className="tiny-label">STARRY / PERSONAL FILE</span>
           <h2>Yukai Wu</h2>
@@ -21,6 +22,7 @@ export function Home({ open, expanded, enter }: {
             Enter desktop <span aria-hidden="true">⤢</span>
           </button>
         )}
+        {expanded && <CvDownload />}
       </header>
       <p className="home-intro">
         I work on agent memory and reinforcement learning. I want to build
@@ -87,6 +89,7 @@ export function Home({ open, expanded, enter }: {
       </div>
       <footer className="home-footer">
         <button className="mac-button" onClick={() => open("bot")}>Ask about me ↵</button>
+        {!expanded && <CvDownload />}
         <button className="home-text-link" onClick={() => open("about")}>More about me →</button>
         <button className="home-text-link" onClick={() => open("contact")}>Contact ↗</button>
       </footer>

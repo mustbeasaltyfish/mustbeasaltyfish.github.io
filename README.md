@@ -10,6 +10,7 @@
 - 拖动窗口标题栏可移动窗口，范围限制在屏幕内；触屏端保留点击和滚动。
 - 首页顶部通过 `Enter desktop` 明确提示进入全屏桌面，状态栏也保留入口；点击窗口右上角或 `View > Expand screen` 也可进入，按 Escape 返回。全屏默认窗口占据桌面的主要区域。
 - `About me` 保留原版七个性格图标的两秒轮播，使用黑白像素图标和阶梯切换；可暂停、手动切换，并遵守系统的减少动态效果设置。
+- `Starry HD` 与 `About me` 提供 `Download CV` 按钮，只下载 PDF，不在页面内嵌预览；两页共用彩色像素头像。
 - `Special > Restart` 重放开机过程；机身右下角的指示灯可休眠，点击屏幕唤醒。
 - `Ask Starry` 通过 Cloudflare Worker 调用硅基流动；密钥仅保存在服务端，限流与配额由服务端执行。
 - `Contact` 提供 GitHub 链接、邮件链接和微信号复制。
@@ -99,7 +100,7 @@ npm run preview
 
 ## 图片资源
 
-头像位于 `src/assets/images/avatar.jpg`，由 `src/components/mac/Home.tsx` 引用。机身、键盘和鼠标由 CSS 绘制；桌面图标为项目内 SVG；像素光标位于 `src/assets/images/mac-arrow.svg` 和 `mac-text.svg`。
+头像位于 `src/assets/images/avatar.jpg`，由 `Home.tsx` 和 `WindowContent.tsx` 的个人介绍共用，保留原图与像素效果。CV 原始 PDF 位于 `src/assets/documents/yukai-wu-cv.pdf`，下载入口统一由 `src/components/mac/CvDownload.tsx` 提供，构建时通过 Vite 生成资源地址。更新 CV 时替换该 PDF 即可。机身、键盘和鼠标由 CSS 绘制；桌面图标为项目内 SVG；像素光标位于 `src/assets/images/mac-arrow.svg` 和 `mac-text.svg`。
 
 ## Bot 功能配置
 
